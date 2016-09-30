@@ -6,7 +6,6 @@
 
 
 
-
 template <typename T>
 class BinarySearchTree
 {
@@ -17,6 +16,10 @@ public:
         for (auto& value : list)
             insert(value);
     };
+
+
+
+
     ~BinarySearchTree()
     {
         delete root_;
@@ -65,23 +68,47 @@ public:
         return nullptr;
     }
 
+    BinarySearchTree(const BinarySearchTree& tree)
+    {
+        size_=tree.size_;
+        root_=tree.root_->copy();
+    }
+
+    BinarySearchTree(BinarySearchTree&& tree)
+    {
+       root_= tree.root_;
+        tree.root_=nullptr;
+        size_=tree.size_;
+        tree.size_= nullptr;
+
+    }
 
 private:
     struct Node
     {
-        T value_;
         Node * left_;
         Node * right_;
-
+        T value_;
+        Node(): left_(nullptr), right_(nullptr){}
         Node(T value) : value_(value), left_(nullptr), right_(nullptr) {}
 
-        friend std::ostream& operator<<(std::ostream& out, const Node& node)
+    Node* copy()
+            {
+               Node* node = new Node(value_);
+                if (right_)
+                    node->right_=right_->copy();
+                if (left_)
+                    node->left_=left_->copy();
+                return node;
+            };
+
+       /* friend std::ostream& operator<<(std::ostream& out, const Node& node)
         {
             out << node.value_ << ' ';
             if (node.left_) out << *node.left_;
             if (node.right_) out << *node.right_;
             return out;
-        }
+        }*/
         ~Node()
         {
             if (left_)
@@ -95,9 +122,83 @@ private:
 
     Node* root_;
     size_t size_;
-    friend std::ostream& operator<<(std::ostream& out, const BinarySearchTree<T>& tree)
+
+
+bool oleft(std::ostream& out, Node* node) const noexcept
+{
+    if(node)
     {
-        if (tree.size_) out << *tree.root_;
+        oleft(out, node->right_);
+        out << node->value_ << ' ';
+        oleft(out, node->left_);
+        return true;
+    } else return false;
+}
+
+bool oright(std::ostream& out, Node* node) const noexcept
+{
+    if(node)
+    {
+        out << node->value_ << ' ';
+        oright(out, node->left_);
+        oright(out, node->right_);
+        return true;
+    } else return false;
+}
+
+
+    bool equal(Node* fnode, Node* snode) const noexcept
+    {
+        if (fnode)
+            return snode && (fnode->value_ == snode->value_) &&
+                   equal(fnode->left_, snode->left_) &&
+                   equal(fnode->right_, snode->right_);
+        else return snode == nullptr ? true : false;
+    }
+
+    auto operator == (const BinarySearchTree& tree) const -> bool
+    {
+        if (this == &tree) return true;
+        else if (size_ == tree.size_) return tree.equal(root_, tree.root_);
+        else return false;
+    }
+
+    auto operator = (const BinarySearchTree& tree) -> BinarySearchTree&
+    {
+        if (this == &tree) return *this;
+        else
+        {
+            delete root_;
+            size_ = tree.size_;
+            root_ = tree.root_->copy();
+            return *this;
+        }
+    }
+
+    auto operator = (BinarySearchTree&& tree) -> BinarySearchTree&
+    {
+        if (this == &tree) return *this;
+        else
+        {
+            delete root_;
+            size_ = tree.size_;
+            tree.size_ = 0;
+            root_ = tree.root_;
+            tree.root_ = nullptr;
+            return *this;
+        }
+    }
+
+
+    friend  auto operator<<(std::ostream& out, const BinarySearchTree<T>& tree)->std::ostream&
+    {
+        tree.oright(out, tree.root_);
+        return out;
+    }
+
+    friend  auto operator<<(std::ofstream& out, const BinarySearchTree<T>& tree)->std::ofstream&
+    {
+        tree.oleft(out, tree.root_);
         return out;
     }
 
@@ -107,4 +208,6 @@ private:
         while (in >> value) tree.insert(value);
         return in;
     }
+
+    
 };
