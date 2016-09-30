@@ -8,10 +8,10 @@
 #include "catch.hpp"
 
 
-SCENARIO("size of empty tree must be equal 0") {
+SCENARIO("empty tree size must be equal 0") {
     GIVEN("empty tree") {
         BinarySearchTree<int> tree;
-        WHEN("decide size") { 
+        WHEN("tatrgeted size") { 
             THEN("size must be equal 0") { 
                 REQUIRE(tree.size() == 0);
                  }
