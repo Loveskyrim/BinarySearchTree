@@ -1,8 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
-project(proj1)
+cmake_minimum_required(VERSION 3.3)
+project(first)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES  include/BinarySearchTree.h sourse/BinarySearchTree.cpp)
-add_executable(proj1 ${SOURCE_FILES} examples/main.cpp)
-add_executable(Tests ${TESTS_SOURSE})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/ /tests/)
+
+set(SOURCE_FILES main.cpp BinarySearchTree.cpp BinarySearchTree.h size.cpp catch.cpp)
+add_executable(first ${SOURCE_FILES} examples/main.cpp)
+add_executable(first ${SOURCE_FILES} tests/size.cpp tests/main.cpp)
