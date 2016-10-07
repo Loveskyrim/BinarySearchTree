@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 2.8.7)
-project(first)
+project(proj1)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/ /tests/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
-set(SOURCE_FILES examples/main.cpp sourse/BinarySearchTree.cpp)
-add_executable(examples ${SOURCE_FILES} examples/main.cpp)
-add_executable(tests ${SOURCE_FILES} tests/size.cpp tests/main.cpp tests/find.cpp tests/insert.cpp)
+add_library(proj1 STATIC ${CMAKE_CURRENT_SOURCE_DIR}/source/BinarySearchTree.cpp)
+
+add_executable(Examples ${CMAKE_CURRENT_SOURCE_DIR} examples/main.cpp)
+add_executable(Tests ${TESTS_SOURCE} tests/catch.hpp tests/size.cpp tests/main.cpp tests/insert.cpp tests/find.cpp)
