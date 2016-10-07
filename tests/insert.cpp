@@ -1,10 +1,3 @@
-
-//
-// Created by pca05 on 30.09.16.
-//
-
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-
 #include <BinarySearchTree.h>
 #include "catch.hpp"
 
@@ -42,7 +35,7 @@ SCENARIO("if inserted value is lesser (or bigger) than the value of root, insert
         }
         WHEN("insert element")
         {
-            tree4.insert(-1);
+            tree4.insert(5);
             THEN("value must be inserted on the right from the root")
             {
                 REQUIRE(tree3 == tree4);
@@ -75,3 +68,4 @@ SCENARIO("if element is (or not) in tree, size must increase by one (or not chan
         }
     }
 }
+
