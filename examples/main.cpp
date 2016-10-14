@@ -1,11 +1,14 @@
-#include "../include/BinarySearchTree.h"
+    #include "../include/BinarySearchTree.h"
 
-int main()
-{
-    BinarySearchTree<char> TreeOne{'a', 'b', 'c', 'd', 'e'};
-    std::cout << TreeOne << std::endl;
+    int main()
+    {
+        BinarySearchTree<double> tree {1.1, 2.2, 3.3, 4.4, 4.0, 4.5};
+        std::cout << tree << std::endl;
+        tree.insert(-5.8);
+        std::cout << tree << std::endl;
 
-    BinarySearchTree<double> TreeTwo {1.1, 2.2, 3.3, 4.4};
-    std::cout << TreeTwo << std::endl;
-    return 0;
-};
+        if (tree.remove(4.4))
+            std::cout << tree << std::endl;
+
+        return 0;
+    };
