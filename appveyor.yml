@@ -24,7 +24,7 @@ before_build:
 
 build_script:
   - mkdir build
-  - cmake build
+  - cd build
   - cmake .. -G "NMake Makefiles" 
   - nmake
-  - nmake install
+
